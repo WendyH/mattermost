@@ -157,7 +157,7 @@ const ProductMenu = (): JSX.Element => {
                     <ProductMenuItem
                         destination={'/'}
                         icon={'product-channels'}
-                        text={'Channels'}
+                        text={'Чат'}
                         active={isChannels(currentProductID)}
                         onClick={handleClick}
                     />
