@@ -148,3 +148,5 @@ report.xml
 go.*.orig
 config.override.mk
 docker-compose.override.yaml
+webapp/package-lock.json
+server/tmpprepackaged/*

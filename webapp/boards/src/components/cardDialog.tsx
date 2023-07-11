@@ -134,7 +134,7 @@ const CardDialog = (props: Props): JSX.Element => {
                         <CompassIcon
                             icon='plus'
                         />}
-                    name='New template from card'
+                    name='Новый шаблон из карточки'
                     onClick={makeTemplateClicked}
                 />
             </BoardPermissionGate>

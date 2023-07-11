@@ -69,11 +69,11 @@ describe('Create and delete board / card', () => {
         cy.findByText('show description').should('exist').click({force: true});
 
         // # Click on "Add a description" below the board title and type "for testing purposes only"
-        cy.findByText('Add a description...').should('be.visible').wait(timeouts.HALF_SEC);
+        cy.findByText('Добавить описание...').should('be.visible').wait(timeouts.HALF_SEC);
 
         // * Assert that the editable description should be visible
-        cy.findByText('Add a description...').should('be.visible');
-        cy.findByText('Add a description...').click({force: true});
+        cy.findByText('Добавить описание...').should('be.visible');
+        cy.findByText('Добавить описание...').click({force: true});
         cy.get('.description').
             click().
             get('.description .MarkdownEditorInput').

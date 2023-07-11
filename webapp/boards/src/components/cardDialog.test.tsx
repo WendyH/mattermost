@@ -267,7 +267,7 @@ describe('components/cardDialog', () => {
         ))
         const buttonMenu = screen.getAllByRole('button', {name: 'menuwrapper'})[0]
         await userEvent.click(buttonMenu)
-        const buttonTemplate = screen.getByRole('button', {name: 'New template from card'})
+        const buttonTemplate = screen.getByRole('button', {name: 'Новый шаблон из карточки'})
         await userEvent.click(buttonTemplate)
         expect(mockedMutator.duplicateCard).toBeCalledTimes(1)
     })

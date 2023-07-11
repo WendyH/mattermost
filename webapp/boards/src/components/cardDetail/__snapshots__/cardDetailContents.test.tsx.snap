@@ -19,7 +19,7 @@ exports[`components/cardDetail/cardDetailContents should match snapshot 1`] = `
           data-testid="preview-element"
         >
           <p>
-            Add a description...
+            Добавить описание...
           </p>
         </div>
       </div>
