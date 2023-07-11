@@ -385,14 +385,14 @@ export default class Plugin {
             this.channelHeaderButtonId = registry.registerChannelHeaderButtonAction(
                 () => <RhsChannelBoardsToggle boardsRhsId={id}/>,
                 () => mmStore.dispatch(toggleRHSPlugin),
-                'Boards',
-                'Boards'
+                'Доски',
+                'Доски'
             )
 
             this.registry.registerProduct(
                 '/boards',
                 'product-boards',
-                'Boards',
+                'Доски',
                 '/boards',
                 MainApp,
                 HeaderComponent,
