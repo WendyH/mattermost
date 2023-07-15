@@ -22,8 +22,8 @@ const ProductBranding = (): JSX.Element => {
 
     const Icon = currentProduct?.switcherIcon ? glyphMap[currentProduct.switcherIcon] : ProductChannelsIcon;
     let productName = currentProduct ? currentProduct.switcherText : 'Чат';
-    productName = productName == 'Boards' ? 'Доски' : productName;
-    productName = productName == 'Playbooks' ? 'Сценарии' : productName;
+    productName = productName === 'Boards' ? 'Доски' : productName;
+    productName = productName === 'Playbooks' ? 'Сценарии' : productName;
 
     return (
         <ProductBrandingContainer tabIndex={0}>

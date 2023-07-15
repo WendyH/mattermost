@@ -121,8 +121,8 @@ const ProductMenu = (): JSX.Element => {
         }
 
         let switcherText = product.switcherText;
-        switcherText = switcherText == 'Boards' ? 'Доски' : switcherText;
-        switcherText = switcherText == 'Playbooks' ? 'Сценарии' : switcherText;
+        switcherText = switcherText === 'Boards' ? 'Доски' : switcherText;
+        switcherText = switcherText === 'Playbooks' ? 'Сценарии' : switcherText;
         return (
             <ProductMenuItem
                 key={product.id}
