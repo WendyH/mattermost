@@ -120,12 +120,15 @@ const ProductMenu = (): JSX.Element => {
             tourTip = (<PlaybooksTourTip singleTip={!boardsEnabled}/>);
         }
 
+        let switcherText = product.switcherText;
+        switcherText = switcherText == 'Boards' ? 'Доски' : switcherText;
+        switcherText = switcherText == 'Playbooks' ? 'Сценарии' : switcherText;
         return (
             <ProductMenuItem
                 key={product.id}
                 destination={product.switcherLinkURL}
                 icon={product.switcherIcon}
-                text={product.switcherText}
+                text={switcherText}
                 active={product.id === currentProductID}
                 onClick={handleClick}
                 tourTip={tourTip}

@@ -21,6 +21,9 @@ const ProductBranding = (): JSX.Element => {
     const currentProduct = useCurrentProduct();
 
     const Icon = currentProduct?.switcherIcon ? glyphMap[currentProduct.switcherIcon] : ProductChannelsIcon;
+    let productName = currentProduct ? currentProduct.switcherText : 'Чат';
+    productName = productName == 'Boards' ? 'Доски' : productName;
+    productName = productName == 'Playbooks' ? 'Сценарии' : productName;
 
     return (
         <ProductBrandingContainer tabIndex={0}>
@@ -30,7 +33,7 @@ const ProductBranding = (): JSX.Element => {
                 size={200}
                 margin='none'
             >
-                {currentProduct ? currentProduct.switcherText : 'Чат'}
+                {productName}
             </Heading>
         </ProductBrandingContainer>
     );
