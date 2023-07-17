@@ -97,7 +97,7 @@ func (ps *PlatformService) LoadLicense() {
 
 	record, nErr := ps.Store.License().Get(licenseId)
 	if nErr != nil {
-		ps.logger.Error("License key from https://mattermost.com required to unlock enterprise features.", mlog.Err(nErr))
+		//ps.logger.Error("License key from https://mattermost.com required to unlock enterprise features.", mlog.Err(nErr))
 		ps.SetLicense(nil)
 		return
 	}
