@@ -60,50 +60,50 @@ export default function FilesFilterMenu(props: Props): JSX.Element {
                     openLeft={true}
                 >
                     <Menu.ItemAction
-                        ariaLabel={'All file types'}
-                        text={'All file types'}
+                        ariaLabel={'Все типы файлов'}
+                        text={'Все типы файлов'}
                         onClick={() => props.onFilter('all')}
                         icon={props.selectedFilter === 'all' ? <i className='icon icon-check'/> : null}
                     />
                     <Menu.ItemAction
-                        ariaLabel={'Documents'}
-                        text={'Documents'}
+                        ariaLabel={'Документы'}
+                        text={'Документы'}
                         onClick={() => props.onFilter('documents')}
                         icon={props.selectedFilter === 'documents' ? <i className='icon icon-check'/> : null}
                     />
                     <Menu.ItemAction
-                        ariaLabel={'Spreadsheets'}
-                        text={'Spreadsheets'}
+                        ariaLabel={'Таблицы'}
+                        text={'Таблицы'}
                         onClick={() => props.onFilter('spreadsheets')}
                         icon={props.selectedFilter === 'spreadsheets' ? <i className='icon icon-check'/> : null}
                     />
                     <Menu.ItemAction
-                        ariaLabel={'Presentations'}
-                        text={'Presentations'}
+                        ariaLabel={'Презентации'}
+                        text={'Презентации'}
                         onClick={() => props.onFilter('presentations')}
                         icon={props.selectedFilter === 'presentations' ? <i className='icon icon-check'/> : null}
                     />
                     <Menu.ItemAction
-                        ariaLabel={'Code'}
-                        text={'Code'}
+                        ariaLabel={'Программный код'}
+                        text={'Программный код'}
                         onClick={() => props.onFilter('code')}
                         icon={props.selectedFilter === 'code' ? <i className='icon icon-check'/> : null}
                     />
                     <Menu.ItemAction
-                        ariaLabel={'Images'}
-                        text={'Images'}
+                        ariaLabel={'Изображения'}
+                        text={'Изображения'}
                         onClick={() => props.onFilter('images')}
                         icon={props.selectedFilter === 'images' ? <i className='icon icon-check'/> : null}
                     />
                     <Menu.ItemAction
-                        ariaLabel={'Audio'}
-                        text={'Audio'}
+                        ariaLabel={'Аудио'}
+                        text={'Аудио'}
                         onClick={() => props.onFilter('audio')}
                         icon={props.selectedFilter === 'audio' ? <i className='icon icon-check'/> : null}
                     />
                     <Menu.ItemAction
-                        ariaLabel={'Videos'}
-                        text={'Videos'}
+                        ariaLabel={'Видео'}
+                        text={'Видео'}
                         onClick={() => props.onFilter('video')}
                         icon={props.selectedFilter === 'video' ? <i className='icon icon-check'/> : null}
                     />
