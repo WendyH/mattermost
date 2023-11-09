@@ -48,6 +48,7 @@ const (
 	WebsocketEventResponse                            = "response"
 	WebsocketEventEmojiAdded                          = "emoji_added"
 	WebsocketEventChannelViewed                       = "channel_viewed"
+	WebsocketEventMultipleChannelsViewed              = "multiple_channels_viewed"
 	WebsocketEventPluginStatusesChanged               = "plugin_statuses_changed"
 	WebsocketEventPluginEnabled                       = "plugin_enabled"
 	WebsocketEventPluginDisabled                      = "plugin_disabled"
@@ -92,18 +93,28 @@ type WebSocketMessage interface {
 }
 
 type WebsocketBroadcast struct {
-	ConnectionId          string                                       `json:"connection_id"`                     // broadcast only occurs for this connection
-	OmitConnectionId      string                                       `json:"omit_connection_id"`                // broadcast is omitted for this connection
-	UserId                string                                       `json:"user_id"`                           // broadcast only occurs for this user
-	OmitUsers             map[string]bool                              `json:"omit_users"`                        // broadcast is omitted for users listed here
-	ChannelId             string                                       `json:"channel_id"`                        // broadcast only occurs for users in this channel
-	ChannelHook           func(userID string, ev *WebSocketEvent) bool `json:"-"`                                 // ChannelHook is a function that runs for a channel scoped event. It can be used to modify the event payload based on some custom logic that runs only for connected users. The return value indicates whether the websocket event was modified or not.
-	TeamId                string                                       `json:"team_id"`                           // broadcast only occurs for users in this team
-	ContainsSanitizedData bool                                         `json:"contains_sanitized_data,omitempty"` // broadcast only occurs for non-sysadmins
-	ContainsSensitiveData bool                                         `json:"contains_sensitive_data,omitempty"` // broadcast only occurs for sysadmins
+	OmitUsers             map[string]bool `json:"omit_users"`                        // broadcast is omitted for users listed here
+	UserId                string          `json:"user_id"`                           // broadcast only occurs for this user
+	ChannelId             string          `json:"channel_id"`                        // broadcast only occurs for users in this channel
+	TeamId                string          `json:"team_id"`                           // broadcast only occurs for users in this team
+	ConnectionId          string          `json:"connection_id"`                     // broadcast only occurs for this connection
+	OmitConnectionId      string          `json:"omit_connection_id"`                // broadcast is omitted for this connection
+	ContainsSanitizedData bool            `json:"contains_sanitized_data,omitempty"` // broadcast only occurs for non-sysadmins
+	ContainsSensitiveData bool            `json:"contains_sensitive_data,omitempty"` // broadcast only occurs for sysadmins
 	// ReliableClusterSend indicates whether or not the message should
 	// be sent through the cluster using the reliable, TCP backed channel.
 	ReliableClusterSend bool `json:"-"`
+
+	// BroadcastHooks is a slice of hooks IDs used to process events before sending them on individual connections. The
+	// IDs should be understood by the WebSocket code.
+	//
+	// This field should never be sent to the client.
+	BroadcastHooks []string `json:"broadcast_hooks,omitempty"`
+	// BroadcastHookArgs is a slice of named arguments for each hook invocation. The index of each entry corresponds to
+	// the index of a hook ID in BroadcastHooks
+	//
+	// This field should never be sent to the client.
+	BroadcastHookArgs []map[string]any `json:"broadcast_hook_args,omitempty"`
 }
 
 func (wb *WebsocketBroadcast) copy() *WebsocketBroadcast {
@@ -124,8 +135,15 @@ func (wb *WebsocketBroadcast) copy() *WebsocketBroadcast {
 	c.OmitConnectionId = wb.OmitConnectionId
 	c.ContainsSanitizedData = wb.ContainsSanitizedData
 	c.ContainsSensitiveData = wb.ContainsSensitiveData
+	c.BroadcastHooks = wb.BroadcastHooks
+	c.BroadcastHookArgs = wb.BroadcastHookArgs
 
 	return &c
+}
+
+func (wb *WebsocketBroadcast) AddHook(hookID string, hookArgs map[string]any) {
+	wb.BroadcastHooks = append(wb.BroadcastHooks, hookID)
+	wb.BroadcastHookArgs = append(wb.BroadcastHookArgs, hookArgs)
 }
 
 type precomputedWebSocketEventJSON struct {
@@ -190,18 +208,33 @@ func (ev *WebSocketEvent) PrecomputeJSON() *WebSocketEvent {
 	return evCopy
 }
 
-func (ev *WebSocketEvent) RemovePrecomputedJSON() {
-	ev.precomputedJSON = nil
+func (ev *WebSocketEvent) RemovePrecomputedJSON() *WebSocketEvent {
+	evCopy := ev.DeepCopy()
+	evCopy.precomputedJSON = nil
+	return evCopy
+}
+
+// WithoutBroadcastHooks gets the broadcast hook information from a WebSocketEvent and returns the event without that.
+// If the event has broadcast hooks, a copy of the event is returned. Otherwise, the original event is returned. This
+// is intended to be called before the event is sent to the client.
+func (ev *WebSocketEvent) WithoutBroadcastHooks() (*WebSocketEvent, []string, []map[string]any) {
+	hooks := ev.broadcast.BroadcastHooks
+	hookArgs := ev.broadcast.BroadcastHookArgs
+
+	if len(hooks) == 0 && len(hookArgs) == 0 {
+		return ev, hooks, hookArgs
+	}
+
+	evCopy := ev.Copy()
+	evCopy.broadcast = ev.broadcast.copy()
+
+	evCopy.broadcast.BroadcastHooks = nil
+	evCopy.broadcast.BroadcastHookArgs = nil
+
+	return evCopy, hooks, hookArgs
 }
 
 func (ev *WebSocketEvent) Add(key string, value any) {
-	ev.data[key] = value
-}
-
-// AddWithCopy copies the map and writes to a copy of that,
-// and sets the map to the new event.
-func (ev *WebSocketEvent) AddWithCopy(key string, value any) {
-	ev.data = copyMap(ev.data)
 	ev.data[key] = value
 }
 
@@ -305,9 +338,10 @@ func (ev *WebSocketEvent) ToJSON() ([]byte, error) {
 }
 
 // Encode encodes the event to the given encoder.
-func (ev *WebSocketEvent) Encode(enc *json.Encoder) error {
+func (ev *WebSocketEvent) Encode(enc *json.Encoder, buf io.Writer) error {
 	if ev.precomputedJSON != nil {
-		return enc.Encode(json.RawMessage(ev.precomputedJSONBuf()))
+		_, err := buf.Write(ev.precomputedJSONBuf())
+		return err
 	}
 
 	return enc.Encode(webSocketEventJSON{

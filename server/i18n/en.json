@@ -296,6 +296,14 @@
     "translation": "Your license does not support channel moderation"
   },
   {
+    "id": "api.channel.gm_to_channel_conversion.not_allowed_for_user.request_error",
+    "translation": "User is not allowed to convert group message to private channel"
+  },
+  {
+    "id": "api.channel.group_message.converted.to_private_channel",
+    "translation": "{{.ConvertedByUsername}} created this channel from a group message with {{.GMMembers}}."
+  },
+  {
     "id": "api.channel.guest_join_channel.post_and_forget",
     "translation": "%v joined the channel as guest."
   },
@@ -338,6 +346,10 @@
   {
     "id": "api.channel.patch_update_channel.forbidden.app_error",
     "translation": "Failed to update the channel."
+  },
+  {
+    "id": "api.channel.patch_update_channel.update_direct_or_group_messages_not_allowed.app_error",
+    "translation": "You are not allowed to update the name, display_name, and purpose of direct or group messages."
   },
   {
     "id": "api.channel.post_channel_privacy_message.error",
@@ -430,6 +442,10 @@
   {
     "id": "api.channel.update_channel.typechange.app_error",
     "translation": "Channel type cannot be updated."
+  },
+  {
+    "id": "api.channel.update_channel.update_direct_or_group_messages_not_allowed.app_error",
+    "translation": "You are not allowed to update the name, display_name, and purpose of direct or group messages."
   },
   {
     "id": "api.channel.update_channel_member_roles.changing_guest_role.app_error",
@@ -900,7 +916,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Mattermost is an open source platform for secure communication, collaboration, and orchestration of work across tools and teams.\r\nMattermost contains three key tools:\r\n\r\n**Channels** - Stay connected with your team via 1:1 and group messaging.\r\n**[Playbooks](/playbooks)** - Build and configure repeatable processes to achieve specific and predictable outcomes.\r\n**[Boards](/boards)** - Manage projects and tasks in a Kanban board structure to help your team hit key milestones.\r\n\r\n[View documentation and guides]({{.HelpLink}})"
+    "translation": "Mattermost is an open source platform for secure communication, collaboration, and orchestration of work across tools and teams.\r\nMattermost contains two key tools:\r\n\r\n**Channels** - Stay connected with your team via 1:1 and group messaging.\r\n**[Playbooks](/playbooks)** - Build and configure repeatable processes to achieve specific and predictable outcomes.\r\n\r\n[View documentation and guides]({{.HelpLink}})"
   },
   {
     "id": "api.command_invite.channel.app_error",
@@ -909,6 +925,10 @@
   {
     "id": "api.command_invite.channel.error",
     "translation": "Could not find the channel {{.Channel}}. Please use the [channel handle](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) to identify channels."
+  },
+  {
+    "id": "api.command_invite.channel_constrained_user_denied",
+    "translation": "This channel is managed by groups.  This user is not part of a group that is synced to this channel."
   },
   {
     "id": "api.command_invite.desc",
@@ -921,10 +941,6 @@
   {
     "id": "api.command_invite.fail.app_error",
     "translation": "An error occurred while joining the channel."
-  },
-  {
-    "id": "api.command_invite.group_constrained_user_denied",
-    "translation": "This channel is managed by groups.  This user is not part of a group that is synced to this channel."
   },
   {
     "id": "api.command_invite.hint",
@@ -955,12 +971,27 @@
     "translation": "{{.User}} added to {{.Channel}} channel."
   },
   {
+    "id": "api.command_invite.successOverflow",
+    "translation": "{{.FirstUser}} and {{.Others}} added to {{.Channel}} channel."
+  },
+  {
     "id": "api.command_invite.user_already_in_channel.app_error",
-    "translation": "{{.User}} is already in the channel."
+    "translation": {
+      "one": "{{.User}} is already in the channel.",
+      "other": "{{.User}} are already in the channel."
+    }
+  },
+  {
+    "id": "api.command_invite.user_already_in_channel.overflow",
+    "translation": "{{.FirstUser}} and {{.Others}} others are already in the channel."
   },
   {
     "id": "api.command_invite.user_not_in_team.app_error",
-    "translation": "@{{.Username}} is not a member of the team."
+    "translation": "You can add {{.Users}} to this channel once they are members of the **{{.Team}}** team."
+  },
+  {
+    "id": "api.command_invite.user_not_in_team.messageOverflow",
+    "translation": "You can add {{.FirstUser}} and {{.Others}} others to this channel once they are members of the **{{.Team}}** team."
   },
   {
     "id": "api.command_invite_people.permission.app_error",
@@ -1766,6 +1797,10 @@
     "translation": "Unable to read image file for emoji."
   },
   {
+    "id": "api.emoji.get_multiple_by_name_too_many.request_error",
+    "translation": "Unable to get that many emojis by name. Only {{.MaxNames}} emojis can be requested at once."
+  },
+  {
     "id": "api.emoji.storage.app_error",
     "translation": "File storage not configured properly. Please configure for either S3 or local server file storage."
   },
@@ -1976,10 +2011,6 @@
   {
     "id": "api.incoming_webhook.invalid_username.app_error",
     "translation": "Invalid username."
-  },
-  {
-    "id": "api.insights.feature_disabled",
-    "translation": "Insights is behind a feature flag which is not enabled."
   },
   {
     "id": "api.invalid_channel",
@@ -2394,10 +2425,6 @@
       "one": "{{.Count}} image sent: {{.Filenames}}",
       "other": "{{.Count}} images sent: {{.Filenames}}"
     }
-  },
-  {
-    "id": "api.post.link_preview_disabled.app_error",
-    "translation": "Link previews have been disabled by the system administrator."
   },
   {
     "id": "api.post.patch_post.can_not_update_post_in_deleted.error",
@@ -4296,6 +4323,10 @@
     "translation": "Login failed because email address has not been verified."
   },
   {
+    "id": "api.user.login.remote_users.login.error",
+    "translation": "Login failed because remote users are not allow to log in."
+  },
+  {
     "id": "api.user.login.use_auth_service.app_error",
     "translation": "Please sign in using {{.AuthService}}."
   },
@@ -4788,6 +4819,18 @@
     "translation": "Unable to find member count."
   },
   {
+    "id": "app.channel.get_channels_with_unreads_and_with_mentions.app_error",
+    "translation": "Unable to check unreads and mentions"
+  },
+  {
+    "id": "app.channel.get_common_teams.incorrect_channel_type",
+    "translation": "Channel is not a group message."
+  },
+  {
+    "id": "app.channel.get_common_teams.store_get_common_teams_error",
+    "translation": "Couldn't fetch common teams."
+  },
+  {
     "id": "app.channel.get_deleted.existing.app_error",
     "translation": "Unable to find the existing deleted channel."
   },
@@ -4846,6 +4889,26 @@
   {
     "id": "app.channel.get_unread.app_error",
     "translation": "Unable to get the channel unread messages."
+  },
+  {
+    "id": "app.channel.gm_conversion_set_categories.delete_all.error",
+    "translation": "Couldn't delete existing sidebar categories for converted GM."
+  },
+  {
+    "id": "app.channel.group_message_conversion.channel_member_missing",
+    "translation": "Cannot find user's channel membership"
+  },
+  {
+    "id": "app.channel.group_message_conversion.incorrect_team",
+    "translation": "The specified team ID in conversion request does not contain all the group message members"
+  },
+  {
+    "id": "app.channel.group_message_conversion.original_channel_not_gm",
+    "translation": "The channel being converted is not a group message. You can only convert group messages"
+  },
+  {
+    "id": "app.channel.group_message_conversion.post_message.error",
+    "translation": "Failed to create group message to channel conversion post"
   },
   {
     "id": "app.channel.migrate_channel_members.select.app_error",
@@ -5080,6 +5143,18 @@
     "translation": "group name is not unique"
   },
   {
+    "id": "app.desktop_token.generateServerToken.invalid_or_expired",
+    "translation": "Token does not exist or is expired"
+  },
+  {
+    "id": "app.desktop_token.validate.invalid",
+    "translation": "Token is not valid or is expired"
+  },
+  {
+    "id": "app.desktop_token.validate.no_user",
+    "translation": "Cannot find a user for this token"
+  },
+  {
     "id": "app.draft.delete.app_error",
     "translation": "Unable to delete the Draft."
   },
@@ -5236,6 +5311,10 @@
     "translation": "Unable to save the file info."
   },
   {
+    "id": "app.file_info.set_searchable_content.app_error",
+    "translation": "Unable to set the searchable content of the file."
+  },
+  {
     "id": "app.group.crud_permission",
     "translation": "Unable to perform operation for that source type."
   },
@@ -5302,6 +5381,10 @@
   {
     "id": "app.import.get_users_by_username.some_users_not_found.error",
     "translation": "Some users not found"
+  },
+  {
+    "id": "app.import.import_channel.deleting.app_error",
+    "translation": "Unable to archive imported channel."
   },
   {
     "id": "app.import.import_channel.scheme_deleted.error",
@@ -5832,10 +5915,6 @@
     "translation": "insert error"
   },
   {
-    "id": "app.insights.feature_disabled",
-    "translation": "Insights feature is disabled."
-  },
-  {
     "id": "app.job.download_export_results_not_enabled",
     "translation": "DownloadExportResults in config.json is false. Please set this to true to download the results of this job."
   },
@@ -6030,10 +6109,6 @@
   {
     "id": "app.oauth.update_app.updating.app_error",
     "translation": "We encountered an error updating the app."
-  },
-  {
-    "id": "app.plugin.blocked.app_error",
-    "translation": "Plugin {{.Id}} is on the block list. Some plugins are blocked because they are built into this version of Mattermost."
   },
   {
     "id": "app.plugin.cluster.save_config.app_error",
@@ -6296,18 +6371,6 @@
     "translation": "Unable to get the posts for the channel."
   },
   {
-    "id": "app.post.get_top_dms_for_user_since.app_error",
-    "translation": "Unable to get top DMs for user."
-  },
-  {
-    "id": "app.post.get_top_threads_for_team_since.app_error",
-    "translation": "Unable to get top threads for team."
-  },
-  {
-    "id": "app.post.get_top_threads_for_user_since.app_error",
-    "translation": "Unable to get top threads for user."
-  },
-  {
     "id": "app.post.marshal.app_error",
     "translation": "Failed to marshal post."
   },
@@ -6400,12 +6463,12 @@
     "translation": "Unable to get reactions for post."
   },
   {
-    "id": "app.reaction.save.save.app_error",
-    "translation": "Unable to save reaction."
+    "id": "app.reaction.permanent_delete_by_user.app_error",
+    "translation": "Unable to delete reactions for user."
   },
   {
-    "id": "app.recent_searches.app_error",
-    "translation": "Error fetching recent searches"
+    "id": "app.reaction.save.save.app_error",
+    "translation": "Unable to save reaction."
   },
   {
     "id": "app.recover.delete.app_error",
@@ -6770,6 +6833,10 @@
   {
     "id": "app.terms_of_service.get.no_rows.app_error",
     "translation": "No terms of service found."
+  },
+  {
+    "id": "app.thread.mark_all_as_read_by_channels.app_error",
+    "translation": "Unable to mark all threads as read by channel"
   },
   {
     "id": "app.update_error",
@@ -8056,6 +8123,10 @@
     "translation": "Unsupported syncable type '{{.Value}}'."
   },
   {
+    "id": "humanize.list_join",
+    "translation": "{{.OtherItems}} and {{.LastItem}}"
+  },
+  {
     "id": "import_process.worker.do_job.file_exists",
     "translation": "Unable to process import: file does not exists."
   },
@@ -8644,6 +8715,10 @@
     "translation": "AD/LDAP field \"Username Attribute\" is required."
   },
   {
+    "id": "model.config.is_valid.link_metadata_timeout.app_error",
+    "translation": "Invalid value for link metadata timeout. Must be a positive number."
+  },
+  {
     "id": "model.config.is_valid.listen_address.app_error",
     "translation": "Invalid listen address for service settings Must be set."
   },
@@ -8654,6 +8729,14 @@
   {
     "id": "model.config.is_valid.localization.available_locales.app_error",
     "translation": "Available Languages must contain Default Client Language."
+  },
+  {
+    "id": "model.config.is_valid.log.advanced_logging.json",
+    "translation": "Failed to parse JSON: {{.Error}}"
+  },
+  {
+    "id": "model.config.is_valid.log.advanced_logging.parse",
+    "translation": "Invalid format: {{.Error}}"
   },
   {
     "id": "model.config.is_valid.login_attempts.app_error",
@@ -8777,7 +8860,7 @@
   },
   {
     "id": "model.config.is_valid.saml_idp_descriptor_url.app_error",
-    "translation": "Identity Provider Issuer URL must be a valid URL and start with http:// or https://."
+    "translation": "Identity Provider Issuer URL cannot be an empty string."
   },
   {
     "id": "model.config.is_valid.saml_idp_url.app_error",
@@ -8862,6 +8945,10 @@
   {
     "id": "model.config.is_valid.tls_overwrite_cipher.app_error",
     "translation": "Invalid value passed for TLS overwrite cipher - Please refer to the documentation for valid values."
+  },
+  {
+    "id": "model.config.is_valid.user_status_away_timeout.app_error",
+    "translation": "Invalid value for user status away timeout. Must be a positive number."
   },
   {
     "id": "model.config.is_valid.webserver_security.app_error",
@@ -9074,10 +9161,6 @@
   {
     "id": "model.incoming_hook.username.app_error",
     "translation": "Invalid username."
-  },
-  {
-    "id": "model.insights.get_start_of_day_for_time_range.time_range.app_error",
-    "translation": "Invalid time range."
   },
   {
     "id": "model.job.is_valid.create_at.app_error",
@@ -9817,15 +9900,15 @@
   },
   {
     "id": "web.error.unsupported_browser.min_browser_version.chrome",
-    "translation": "Version 112+"
+    "translation": "Version 116+"
   },
   {
     "id": "web.error.unsupported_browser.min_browser_version.edge",
-    "translation": "Version 112+"
+    "translation": "Version 116+"
   },
   {
     "id": "web.error.unsupported_browser.min_browser_version.firefox",
-    "translation": "Version 102+"
+    "translation": "Version 115+"
   },
   {
     "id": "web.error.unsupported_browser.min_browser_version.safari",

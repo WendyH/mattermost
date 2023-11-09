@@ -3,12 +3,11 @@
 
 import React from 'react';
 
-import {Post, PostType} from '@mattermost/types/posts';
+import type {Post, PostType} from '@mattermost/types/posts';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import {renderWithIntlAndStore, screen} from 'tests/react_testing_utils';
-
+import {renderWithContext, screen} from 'tests/react_testing_utils';
 import {TestHelper} from 'utils/test_helper';
 
 import PostMarkdown from './post_markdown';
@@ -16,7 +15,6 @@ import PostMarkdown from './post_markdown';
 describe('components/PostMarkdown', () => {
     const baseProps = {
         imageProps: {},
-        isRHS: false,
         message: 'message',
         post: TestHelper.getPostMock(),
         mentionKeys: [{key: 'a'}, {key: 'b'}, {key: 'c'}],
@@ -58,13 +56,13 @@ describe('components/PostMarkdown', () => {
         const props = {...baseProps};
 
         Reflect.deleteProperty(props, 'post');
-        renderWithIntlAndStore(<PostMarkdown {...props}/>, state);
+        renderWithContext(<PostMarkdown {...props}/>, state);
 
         expect(screen.getByText('message')).toBeInTheDocument();
     });
 
     test('should render properly with an empty post', () => {
-        renderWithIntlAndStore(
+        renderWithContext(
             <PostMarkdown
                 {...baseProps}
                 post={{} as any}
@@ -88,7 +86,7 @@ describe('components/PostMarkdown', () => {
                 },
             }),
         };
-        renderWithIntlAndStore(<PostMarkdown {...props}/>, state);
+        renderWithContext(<PostMarkdown {...props}/>, state);
 
         const link = screen.getByRole('link');
 
@@ -117,7 +115,7 @@ describe('components/PostMarkdown', () => {
                 },
             }),
         };
-        renderWithIntlAndStore(<PostMarkdown {...props}/>, state);
+        renderWithContext(<PostMarkdown {...props}/>, state);
         expect(screen.getByText('No highlight')).toBeInTheDocument();
 
         expect(screen.queryByRole('link')).not.toBeInTheDocument();
@@ -134,7 +132,7 @@ describe('components/PostMarkdown', () => {
                 },
             }),
         };
-        renderWithIntlAndStore(<PostMarkdown {...props}/>, state);
+        renderWithContext(<PostMarkdown {...props}/>, state);
 
         const groupMention = screen.getByText('@group');
 
@@ -154,7 +152,7 @@ describe('components/PostMarkdown', () => {
                 id: 'post_id',
             }),
         };
-        renderWithIntlAndStore(<PostMarkdown {...props}/>, state);
+        renderWithContext(<PostMarkdown {...props}/>, state);
         expect(screen.getByText('message')).toBeInTheDocument();
     });
 
@@ -178,7 +176,7 @@ describe('components/PostMarkdown', () => {
             }),
         };
 
-        renderWithIntlAndStore(<PostMarkdown {...props}/>, state);
+        renderWithContext(<PostMarkdown {...props}/>, state);
         expect(screen.getByText('@user')).toBeInTheDocument();
         expect(screen.getByText('updated the channel header')).toBeInTheDocument();
         expect(screen.getByText('From:')).toBeInTheDocument();
@@ -228,7 +226,7 @@ describe('components/PostMarkdown', () => {
                 },
             ],
         };
-        renderWithIntlAndStore(<PostMarkdown {...props}/>, state);
+        renderWithContext(<PostMarkdown {...props}/>, state);
         expect(screen.queryByText('world', {exact: true})).not.toBeInTheDocument();
 
         // hook message
@@ -262,7 +260,7 @@ describe('components/PostMarkdown', () => {
                 },
             ],
         };
-        renderWithIntlAndStore(<PostMarkdown {...props}/>, state);
+        renderWithContext(<PostMarkdown {...props}/>, state);
         expect(screen.queryByText('world', {exact: true})).not.toBeInTheDocument();
         expect(screen.queryByText('world!', {exact: true})).toBeInTheDocument();
     });
